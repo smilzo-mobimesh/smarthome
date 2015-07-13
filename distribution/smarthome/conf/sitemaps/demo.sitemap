@@ -11,10 +11,10 @@ sitemap demo label="Demo Sitemap" {
 //	Frame label="Weather" {
 //		Text item=Weather_Temperature
 //	}
-//	Frame label="Status" {
-//        Switch item=Smilzo label="Presence" icon="phone"
-//        Switch item=SmilzoDemoPhone label="Demo Phone" icon="phone"
-//    }
+	Frame label="Status" {
+        Switch item=SmilzoDemoNull label="Presence" icon="phone"
+        Switch item=SmilzoDemoPhone label="Demo Phone" icon="phone"
+    }
 
     Frame label="Demo Items" {
         Switch item="PortaDavanti" label="PortaDavanti"

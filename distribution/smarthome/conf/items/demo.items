@@ -12,8 +12,8 @@
 // Number Weather_Temperature 		"Outside Temperature [%.1f °C]"	<temperature> (Weather_Chart) { channel="yahooweather:weather:berlin:temperature" }
 
 
-// Switch Smilzo               "Test switch [%s SM]" <switch>
-// Switch SmilzoDemoPhone      "Test switch [%s SM]" <power1> { channel="voismartswitch:voismartswitchport:demo:18:state" }
-// Switch SmilzoDemoNull       "Test switch [%s SM]" <power2> { channel="voismartswitch:voismartswitchport:demo:1:state" }
+Switch Smilzo               "Test switch [%s SM]" <switch>
+Switch SmilzoDemoPhone      "Test switch [%s SM]" <power1> { channel="voismartswitch:voismartswitchport:demo:18:state" }
+Switch SmilzoDemoNull       "Test switch [%s SM]" <power2> { channel="voismartswitch:voismartswitchport:demo:1:state" }
 
 Switch frontdoor             "Bottone" { channel="mattuino:door:davanti:open" }
