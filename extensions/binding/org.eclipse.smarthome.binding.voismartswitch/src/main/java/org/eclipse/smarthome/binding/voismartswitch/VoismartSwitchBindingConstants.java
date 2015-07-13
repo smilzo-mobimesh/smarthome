@@ -20,9 +20,20 @@ public class VoismartSwitchBindingConstants {
     public static final String BINDING_ID = "voismartswitch";
     
     // List of all Thing Type UIDs
-    public final static ThingTypeUID THING_TYPE_SAMPLE = new ThingTypeUID(BINDING_ID, "sample");
+    public final static ThingTypeUID THING_TYPE_VOISMARTSWITCH = new ThingTypeUID(BINDING_ID, "voismartswitchbridge");
+    public final static ThingTypeUID THING_TYPE_VOISMARTSWITCH_PORT = new ThingTypeUID(BINDING_ID, "voismartswitchport");
 
     // List of all Channel ids
-    public final static String CHANNEL_1 = "channel1";
+    public final static String STATE = "state";
+        
+    // Bridge config properties
+    public static final String SWITCH_NAME = "switchName";
+    public static final String HOST = "ipAddress";
+    public static final String USER_NAME = "userName";
+    public static final String USER_PASSWORD = "userPassword";
+
+    // Port config properties
+    public static final String PORT_ID = "portNumber";
+    public static final String BRIDGE_UID = "VoismartSwitchPort.xml";
 
 }

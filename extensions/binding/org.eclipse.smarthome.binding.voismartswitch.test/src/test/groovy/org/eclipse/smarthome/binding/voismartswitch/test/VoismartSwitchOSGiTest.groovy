@@ -23,12 +23,12 @@ import org.eclipse.smarthome.test.storage.VolatileStorageService
 import org.junit.Before
 import org.junit.Test
 
-import org.eclipse.smarthome.binding.voismartswitch.handler.VoismartSwitchHandler
+import org.eclipse.smarthome.binding.voismartswitch.handler.VoismartSwitchBridgeHandler
 
 
 
 /**
- * Tests for {@link VoismartSwitchHandler}.
+ * Tests for {@link VoismartSwitchBridgeHandler}.
  *
  * @author Smilzo - Initial contribution
  */
@@ -48,8 +48,8 @@ class VoismartSwitchOSGiTest extends OSGiTest {
 	}
 
 	@Test
-	void "creation of a VoismartSwitchHandler"() {
-		VoismartSwitchHandler handler = getService(ThingHandler,VoismartSwitchHandler)
+	void "creation of a VoismartSwitchBridgeHandler"() {
+		VoismartSwitchBridgeHandler handler = getService(ThingHandler,VoismartSwitchBridgeHandler)
 		assertThat handler, is(nullValue())
 	}
 

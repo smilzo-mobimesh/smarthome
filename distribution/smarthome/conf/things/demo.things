@@ -1,2 +1,6 @@
-yahooweather:weather:berlin [ location="638242" ]
-yahooweather:weather:losangeles [ location="2442047", unit="us", refresh=120 ]
+//yahooweather:weather:berlin [ location="638242" ]
+//yahooweather:weather:losangeles [ location="2442047", unit="us", refresh=120 ]
+voismartswitch:voismartswitchbridge:demo [ switchName="demografico", ipAddress="192.168.20.201", userName="admin", userPassword="admin" ]
+// Thing voismartswitch:voismartswitchport:demografico [ portNumber="18" ] 
+// Thing voismartswitch:voismartswitchport:demo [ portNumber="1" ]   
+mattuino:door:davanti [ ip="192.168.1.12" ]

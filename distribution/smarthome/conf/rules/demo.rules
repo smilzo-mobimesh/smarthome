@@ -1,9 +1,15 @@
-rule "Initialize demo items"
+//rule "Initialize demo items"
+//when
+//  System started
+//then
+//  DemoLocation.postUpdate("52,9")
+//  DemoContact.postUpdate(OPEN)
+//  DemoString.postUpdate("Hello SmartHome!")
+//  DemoDateTime.postUpdate(new DateTimeType())
+//end
+rule "Test"
 when
-  System started
+  Item Smilzo received command
 then
-  DemoLocation.postUpdate("52,9")
-  DemoContact.postUpdate(OPEN)
-  DemoString.postUpdate("Hello SmartHome!")
-  DemoDateTime.postUpdate(new DateTimeType())
+  sendCommand(SmilzoDemoPhone, Smilzo.state.toString)
 end

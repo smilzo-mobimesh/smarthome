@@ -1,14 +1,22 @@
 sitemap demo label="Demo Sitemap" {
-	Frame label="Demo Items" {
-		Text item=DemoContact label="Contact [MAP(en.map):%s]"
-		Text item=DemoString label="Message [%s]"
-		Text item=DemoDateTime label="Date [%1$tA, %1$td.%1$tm.%1$tY]"
-		Group item=DemoSwitchGroup icon="switch"
-	}
-	Frame label="Location" {
-		Mapview item=DemoLocation height=10
-	}
-	Frame label="Weather" {
-		Text item=Weather_Temperature
-	}
+//	Frame label="Demo Items" {
+//		Text item=DemoContact label="Contact [MAP(en.map):%s]"
+//		Text item=DemoString label="Message [%s]"
+//		Text item=DemoDateTime label="Date [%1$tA, %1$td.%1$tm.%1$tY]"
+//		Group item=DemoSwitchGroup icon="switch"
+//	}
+//	Frame label="Location" {
+//		Mapview item=DemoLocation height=10
+//	}
+//	Frame label="Weather" {
+//		Text item=Weather_Temperature
+//	}
+//	Frame label="Status" {
+//        Switch item=Smilzo label="Presence" icon="phone"
+//        Switch item=SmilzoDemoPhone label="Demo Phone" icon="phone"
+//    }
+
+    Frame label="Demo Items" {
+        Switch item="PortaDavanti" label="PortaDavanti"
+    }
 }

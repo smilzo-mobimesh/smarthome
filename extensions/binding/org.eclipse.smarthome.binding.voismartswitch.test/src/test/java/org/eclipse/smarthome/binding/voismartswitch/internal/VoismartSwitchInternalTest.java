@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
-* Tests cases for {@link  VoismartSwitchHandler}.
+* Tests cases for {@link  VoismartSwitchBridgeHandler}.
 *
 * @author  Smilzo - Initial contribution
 */

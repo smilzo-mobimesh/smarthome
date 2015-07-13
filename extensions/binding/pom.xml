@@ -23,6 +23,8 @@
     <module>org.eclipse.smarthome.binding.lifx</module>
     <module>org.eclipse.smarthome.binding.voismartswitch</module>
     <module>org.eclipse.smarthome.binding.voismartswitch.test</module>
+    <module>org.eclipse.smarthome.binding.mattuino</module>
+    <module>org.eclipse.smarthome.binding.mattuino.test</module>
   </modules>
 
   <build>
