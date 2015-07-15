@@ -9,11 +9,14 @@
 // String DemoString
 // Contact DemoContact
 
-// Number Weather_Temperature 		"Outside Temperature [%.1f °C]"	<temperature> (Weather_Chart) { channel="yahooweather:weather:berlin:temperature" }
+Number Berlin_Temperature 		"Berlin Temperature [%.1f °C]"	<temperature> (Weather_Chart) { channel="yahooweather:weather:berlin:temperature" }
+Number LosAngeles_Temperature      "LosAngeles Temperature [%.1f °C]" <temperature> (Weather_Chart) { channel="yahooweather:weather:losangeles:temperature" }
+Number Milan_Temperature      "Milan Temperature [%.1f °C]" <temperature> (Weather_Chart) { channel="yahooweather:weather:milan:temperature" }
 
 
-Switch Smilzo               "Test switch [%s SM]" <switch>
-Switch SmilzoDemoPhone      "Test switch [%s SM]" <power1> { channel="voismartswitch:voismartswitchport:demo:18:state" }
-Switch SmilzoDemoNull       "Test switch [%s SM]" <power2> { channel="voismartswitch:voismartswitchport:demo:1:state" }
+Switch SmilzoDemoPhoneWithRule               "[%s]" <switch>
+Switch SmilzoDemoPhone      "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:18:state" }
+Switch SmilzoDemo1       "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:1:state" }
 
-Switch frontdoor             "Bottone" { channel="mattuino:door:davanti:open" }
+Switch Porta               "[Door is: %s]" <switch> { channel="mattuino:door:front:state" }
+Number Badge                "[Badge ID: %l]" { channel="aveabadge:WEB08S:front:badge-id" }

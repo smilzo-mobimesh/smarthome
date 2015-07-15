@@ -25,6 +25,8 @@
     <module>org.eclipse.smarthome.binding.voismartswitch.test</module>
     <module>org.eclipse.smarthome.binding.mattuino</module>
     <module>org.eclipse.smarthome.binding.mattuino.test</module>
+    <module>org.eclipse.smarthome.binding.aveabadge</module>
+    <module>org.eclipse.smarthome.binding.aveabadge.test</module>
   </modules>
 
   <build>

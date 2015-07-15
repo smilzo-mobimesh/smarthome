@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="voismartswitch"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <!-- Switch Voismart Type -->
+    <thing-type id="voismartswitchport">
+        <supported-bridge-type-refs>
+            <bridge-type-ref id="voismartswitchbridge" />
+        </supported-bridge-type-refs>
+        
+        <label>VoismartSwitch Binding Thing</label>
+        <description>Sample thing for VoismartSwitch Binding</description>
+
+        <channels>
+            <channel id="state" typeId="portState"/>
+        </channels>
+        
+        <config-description>
+            <parameter name="portNumber" type="text" required="true">
+                <label>Port Name</label>
+                <description>Switch port name.</description>
+            </parameter>
+            <parameter name="bridgeUID" type="text" required="true">
+                <label>My bridge</label>
+                <description>Bridge uid.</description>
+            </parameter>
+        </config-description>        
+    </thing-type>
+
+    <!-- port State Type -->
+    <channel-type id="portState">
+        <item-type>Switch</item-type>
+        <label>VoismartSwitch Binding Channel</label>
+        <category>PowerOutlet</category>
+    </channel-type>
+
+</thing:thing-descriptions>

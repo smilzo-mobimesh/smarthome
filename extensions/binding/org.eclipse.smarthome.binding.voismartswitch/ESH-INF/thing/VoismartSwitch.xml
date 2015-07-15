@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="voismartswitch"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <!-- Switch Voismart Bridge -->
+    <bridge-type id="voismartswitchbridge">
+        <label>VoismartSwitch Binding Thing</label>
+        <description>Sample thing for VoismartSwitch Binding</description>
+
+        <!-- <channels>
+            <channel id="state" typeId="state"></channel>
+        </channels> -->
+        
+        <config-description>
+            <parameter name="address" type="text" required="true">
+                <context>network-address</context>
+                <label>Address</label>
+                <description>Switch IP address.</description>
+            </parameter>
+            <parameter name="username" type="text" required="true">
+                <label>Username</label>
+                <description>Switch username.</description>
+            </parameter>
+            <parameter name="password" type="text" required="true">
+                <label>Password</label>
+                <description>Switch password.</description>
+            </parameter>
+        </config-description>        
+    </bridge-type>
+    
+    <!-- Switch State Type -->
+    <!-- <channel-type id="state">
+        <item-type>Switch</item-type>
+        <label>VoismartSwitch Binding Channel</label>
+        <category>PowerOutlet</category>
+    </channel-type> -->
+
+</thing:thing-descriptions>

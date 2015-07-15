@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="mattuino"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <!-- Sample Thing Type -->
+    <thing-type id="door">
+        <label>Mattuino Binding Thing</label>
+        <description>Sample thing for Mattuino Binding</description>
+
+        <channels>
+            <channel id="state" typeId="doorLockState"/>
+        </channels>
+        
+        <config-description>
+            <parameter name="ipAddress" type="text" required="true">
+                <context>network-address</context>
+                <label>IP Address</label>
+                <description>Controller IP address</description>
+            </parameter>
+        </config-description>
+    </thing-type>
+
+    <!-- Sample Channel Type -->
+    <channel-type id="doorLockState">
+        <item-type>Switch</item-type>
+        <label>Mattuino Open Door Channel</label>
+        <description>Sample channel for Mattuino Binding</description>
+        <category>PowerOutlet</category>
+    </channel-type>
+
+</thing:thing-descriptions>

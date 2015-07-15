@@ -8,15 +8,20 @@ sitemap demo label="Demo Sitemap" {
 //	Frame label="Location" {
 //		Mapview item=DemoLocation height=10
 //	}
-//	Frame label="Weather" {
-//		Text item=Weather_Temperature
-//	}
-	Frame label="Status" {
-        Switch item=SmilzoDemoNull label="Presence" icon="phone"
-        Switch item=SmilzoDemoPhone label="Demo Phone" icon="phone"
+    Frame label="Weather" {
+		Text item=Berlin_Temperature
+        Text item=LosAngeles_Temperature
+        Text item=Milan_Temperature
+	}
+	Frame label="VoismartSwitch" {
+        Switch item=SmilzoDemoPhone label="Demo Phone" icon="switch"
+        Switch item=SmilzoDemo1 label="Presence" icon="switch"
     }
 
-    Frame label="Demo Items" {
-        Switch item="PortaDavanti" label="PortaDavanti"
+    Frame label="Door" {
+        Switch item=Porta label="PortaDavanti" icon="switch"
+    }
+    Frame label="Rules" {
+        Switch item=SmilzoDemoPhoneWithRule label="Demo Phone with Rule" icon="switch"
     }
 }

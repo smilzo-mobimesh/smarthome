@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="aveabadge"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <!-- Sample Thing Type -->
+    <thing-type id="WEB08S">
+        <label>AveaBadge Binding Thing</label>
+        <description>Sample thing for AveaBadge Binding</description>
+
+        <channels>
+            <channel id="badge-id" typeId="badgeCode"/>
+        </channels>
+        
+        <config-description>
+            <parameter name="ipAddress" type="text" required="true">
+                <context>network-address</context>
+                <label>IP Address</label>
+                <description>Controller IP address</description>
+            </parameter>
+            <parameter name="heartBeatInterval" type="integer" required="false">
+                <context>Number</context>
+                <label>HeartBeatInterval</label>
+                <description>Badge HB interval</description>
+                <default>30</default>
+            </parameter>
+            <parameter name="heartBeatMaxLost" type="integer">
+                <label>Lost heartbeat before offline</label>
+                <description>Specifies how hearthbeat must be lost beafore set thing to offline.</description>
+                <default>3</default>
+            </parameter>            
+        </config-description>
+    </thing-type>
+
+    <!-- Sample Channel Type -->
+    <channel-type id="badgeCode">
+        <item-type>Number</item-type>
+        <label>Badge Code</label>
+        <description>Code read.</description>
+        <state readOnly="true" pattern="%l"></state>
+    </channel-type>
+
+</thing:thing-descriptions>
