@@ -27,7 +27,7 @@
         <item-type>Switch</item-type>
         <label>Mattuino Open Door Channel</label>
         <description>Sample channel for Mattuino Binding</description>
-        <category>PowerOutlet</category>
+        <category>Door</category>
     </channel-type>
 
 </thing:thing-descriptions>

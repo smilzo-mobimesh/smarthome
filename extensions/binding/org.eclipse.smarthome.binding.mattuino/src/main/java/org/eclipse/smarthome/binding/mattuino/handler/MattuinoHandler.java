@@ -83,8 +83,7 @@ public class MattuinoHandler extends BaseThingHandler {
                             logger.debug("Got response " + response);
                             if (response.contains(SUCCESS_RESPONSE)) {
                                 logger.debug("Request success");
-                                Thread t = new Thread(new TurnOff(this, logger));
-                                t.start();
+                                updateState(new ChannelUID(getThing().getUID(), STATE), OnOffType.OFF);
 
                                 return;
                             } else {

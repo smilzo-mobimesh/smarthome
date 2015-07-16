@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AveaBadgeHandler extends BaseThingHandler {
 
-    private final static int TIMEOUT = 10000;
+    private final static int TIMEOUT = 5000;
 
     private final static Logger logger = LoggerFactory.getLogger(AveaBadgeHandler.class);
 
@@ -79,9 +79,9 @@ public class AveaBadgeHandler extends BaseThingHandler {
                 if (code != null && command.toString().equals(code.toString())) {
                     code = null;
                     checked = true;
-                    updateState(new ChannelUID(getThing().getUID(), BADGE_ID), new DecimalType(0));
                 } else
                     logger.debug("Received command but code {} not match commeand {}", code, command);
+                logger.debug("Notify");
                 lock.notify();
             }
         }
@@ -114,22 +114,25 @@ public class AveaBadgeHandler extends BaseThingHandler {
                 msg.setHeartBeat(heartBeatInterval);
                 break;
             case CO:
-                if (msg.getCode() != null) {
-                    synchronized (lock) {
+                synchronized (lock) {
+                    if (msg.getCode() != null) {
                         checked = false;
                         code = new Long(msg.getCode());
                         updateState(new ChannelUID(getThing().getUID(), BADGE_ID), new DecimalType(msg.getCode()));
                         logger.debug("Waiting");
                         lock.wait(TIMEOUT);
                         logger.debug("End wait");
-                    }
-                    if (checked)
-                        msg.setBeep(AveaWebMsg.BEEP.SHORT);
-                    else
+                        if (checked)
+                            msg.setBeep(AveaWebMsg.BEEP.SHORT);
+                        else
+                            msg.setBeep(AveaWebMsg.BEEP.LONG);
+                    } else {
                         msg.setBeep(AveaWebMsg.BEEP.LONG);
-                } else {
+                    }
+
+                    logger.debug("resetting state");
                     updateState(new ChannelUID(getThing().getUID(), BADGE_ID), new DecimalType(0));
-                    msg.setBeep(AveaWebMsg.BEEP.LONG);
+                    logger.debug("End processing message");
                 }
                 break;
         }

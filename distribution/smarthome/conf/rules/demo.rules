@@ -14,7 +14,7 @@
 //  sendCommand(SmilzoDemoPhone, SmilzoDemoPhoneWithRule.state.toString)
 //end
 
-rule "Test2"
+rule "OpenDoor"
 when
   Item Badge changed
 then
