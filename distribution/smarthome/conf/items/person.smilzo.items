@@ -1,0 +1,5 @@
+// User Smilzo
+Group gSmilzo (gUsers)
+Group gSmilzo_Devices (gSmilzo)
+Number Smilzo_Badge "Badge ID [%f]" (gBadges, gSmilzo) { channel="person:person:smilzo:badge-id" }
+String Smilzo_Activity "STATUS [%s]" (gActivities, gSmilzo) { channel="person:person:smilzo:activity" }

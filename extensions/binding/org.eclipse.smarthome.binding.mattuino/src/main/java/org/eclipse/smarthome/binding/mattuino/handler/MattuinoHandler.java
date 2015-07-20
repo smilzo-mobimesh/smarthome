@@ -10,6 +10,7 @@ package org.eclipse.smarthome.binding.mattuino.handler;
 import static org.eclipse.smarthome.binding.mattuino.MattuinoBindingConstants.*;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -37,13 +38,16 @@ public class MattuinoHandler extends BaseThingHandler {
 
     private final static String SUCCESS_RESPONSE = "PORTA APERTA";
     private final static int SLEEP_TIME = 4000;
+    private final ChannelUID doorStateChannelUID;
 
     private final static Logger logger = LoggerFactory.getLogger(MattuinoHandler.class);
     private HttpClient client = null;
     private URIBuilder uri;
+    private boolean scheduled;
 
     public MattuinoHandler(Thing thing) {
         super(thing);
+        doorStateChannelUID = new ChannelUID(getThing().getUID(), STATE);
     }
 
     @Override
@@ -57,9 +61,17 @@ public class MattuinoHandler extends BaseThingHandler {
         logger.info("Done uri:" + uri);
         updateStatus(ThingStatus.ONLINE);
 
-        Thread t = new Thread(new TurnOff(this, logger));
-        t.start();
+        Runnable turnoff = new Runnable() {
+            @Override
+            public void run() {
+                logger.debug("TurnOff fired " + getThing().getUID());
+                updateState(doorStateChannelUID, OnOffType.OFF);
+                logger.debug("Done");
+                scheduled = false;
+            }
+        };
 
+        scheduler.schedule(turnoff, 5, TimeUnit.SECONDS);
     }
 
     @Override
@@ -70,62 +82,45 @@ public class MattuinoHandler extends BaseThingHandler {
 
         switch (channelUID.getId()) {
             case STATE:
-                if (command instanceof OnOffType && command.equals(OnOffType.ON) && client != null) {
-                    HttpGet httpGet = new HttpGet(uri.toString());
-                    logger.debug("Sending get request to " + uri.toString());
-                    HttpResponse httpResponse;
-                    try {
-                        httpResponse = client.execute(httpGet);
-                        logger.debug("Done");
-                        if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                            // Controllo la scritta
-                            String response = IOUtils.toString(httpResponse.getEntity().getContent());
-                            logger.debug("Got response " + response);
-                            if (response.contains(SUCCESS_RESPONSE)) {
-                                logger.debug("Request success");
-                                updateState(new ChannelUID(getThing().getUID(), STATE), OnOffType.OFF);
+                if (command instanceof OnOffType && command.equals(OnOffType.ON) && client != null && !scheduled) {
+                    Runnable doAction = new Runnable() {
 
-                                return;
-                            } else {
-                                logger.warn("Controller response error");
+                        @Override
+                        public void run() {
+                            synchronized (client) {
+                                HttpGet httpGet = new HttpGet(uri.toString());
+                                logger.debug("Sending get request to " + uri.toString());
+                                HttpResponse httpResponse;
+                                try {
+                                    httpResponse = client.execute(httpGet);
+                                    logger.debug("Done");
+                                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                                        // Controllo la scritta
+                                        String response = IOUtils.toString(httpResponse.getEntity().getContent());
+                                        logger.debug("Got response " + response);
+                                        if (response.contains(SUCCESS_RESPONSE)) {
+                                            logger.debug("Request success");
+                                            updateState(new ChannelUID(getThing().getUID(), STATE), OnOffType.OFF);
+                                        } else {
+                                            logger.warn("Controller response error");
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                    updateStatus(ThingStatus.OFFLINE);
+                                }
+                                scheduled = false;
                             }
                         }
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        updateStatus(ThingStatus.OFFLINE);
-                    }
+                    };
+
+                    scheduled = true;
+                    scheduler.execute(doAction);
                     // throw new Exception();
                 }
                 break;
         }
 
     }
-
-    private class TurnOff implements Runnable {
-        private final MattuinoHandler door;
-        private final Logger logger;
-
-        TurnOff(MattuinoHandler currentDoor, Logger logger) {
-            this.door = currentDoor;
-            this.logger = logger;
-            logger.debug("TurnOff created");
-        }
-
-        @Override
-        public void run() {
-            try {
-                logger.debug("TurnOff called");
-                Thread.sleep(SLEEP_TIME);
-                logger.debug("TurnOff fired " + getThing().getUID());
-                updateState(new ChannelUID(getThing().getUID(), STATE), OnOffType.OFF);
-                logger.debug("Done");
-                ;
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

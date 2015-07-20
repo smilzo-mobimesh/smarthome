@@ -65,29 +65,31 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
         public void run() {
             try {
                 try {
-                    logger.debug("Updating thread for discovery");
+                    // logger.debug("Updating thread for discovery");
                     FullConfig fullConfig = bridge.getFullConfig();
                     if (!lastBridgeConnectionState) {
-                        logger.debug("Connection to VoismartSwitch {} established.", bridge.getIPAddress());
+                        // logger.debug("Connection to VoismartSwitch {} established.", bridge.getIPAddress());
                         lastBridgeConnectionState = true;
                         onConnectionResumed(bridge);
                     }
                     if (lastBridgeConnectionState) {
                         Map<String, FullPort> lastPortStateCopy = new HashMap<>(lastPortStates);
-                        logger.debug("Iterate port list");
+                        // logger.debug("Iterate port list");
                         for (final FullPort fullPort : fullConfig.getPorts()) {
                             final String portId = fullPort.getId();
-                            logger.debug("Looking at port {}", portId);
+                            // logger.debug("Looking at port {}", portId);
                             if (lastPortStateCopy.containsKey(portId)) {
                                 final FullPort lastFullPort = lastPortStateCopy.remove(portId);
                                 final OnOffType lastFullPortState = lastFullPort.getPOEStatus();
                                 lastPortStates.put(portId, fullPort);
                                 if (!isEqual(lastFullPortState, fullPort.getPOEStatus())) {
-                                    logger.debug("Status {} update for port {} detected.", fullPort.getPOEStatus(),
-                                            portId);
+                                    /*
+                                     * logger.debug("Status {} update for port {} detected.", fullPort.getPOEStatus(),
+                                     * portId);
+                                     */
                                     for (PortStatusListener portStatusListener : portStatusListeners) {
                                         try {
-                                            logger.debug("Signalling port status changed");
+                                            // logger.debug("Signalling port status changed");
                                             portStatusListener.onPortStateChanged(bridge, fullPort);
                                         } catch (Exception e) {
                                             logger.error(
@@ -97,12 +99,12 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
                                     }
                                 }
                             } else {
-                                logger.debug("Adding for port {}", portId);
+                                // logger.debug("Adding for port {}", portId);
                                 lastPortStates.put(portId, fullPort);
-                                logger.debug("Port {} added.", portId);
+                                // logger.debug("Port {} added.", portId);
                                 for (PortStatusListener portStatusListener : portStatusListeners) {
                                     try {
-                                        logger.debug("Calling on port added");
+                                        // logger.debug("Calling on port added");
                                         portStatusListener.onPortAdded(bridge, fullPort);
                                     } catch (Exception e) {
                                         logger.error("An exception occurred while calling the BridgeHeartbeatListener",
@@ -116,7 +118,7 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
                         // mai)
                         for (Entry<String, FullPort> fullPortEntry : lastPortStateCopy.entrySet()) {
                             lastPortStates.remove(fullPortEntry.getKey());
-                            logger.debug("Port {} removed.", fullPortEntry.getKey());
+                            // logger.debug("Port {} removed.", fullPortEntry.getKey());
                             for (PortStatusListener portStatusListener : portStatusListeners) {
                                 try {
                                     portStatusListener.onPortRemoved(bridge, fullPortEntry.getValue());
@@ -127,16 +129,16 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
                         }
                     }
                 } catch (IllegalStateException e) {
-                    logger.debug("Update thread illegal state exception. Check reachability.");
+                    // logger.debug("Update thread illegal state exception. Check reachability.");
                     if (isReachable(bridge.getIPAddress())) {
-                        logger.debug("Is reachable, authethication error.");
+                        // logger.debug("Is reachable, authethication error.");
                         lastBridgeConnectionState = false;
                         onNotAuthenticated(bridge);
-                        logger.debug("Authenticated?");
-                        logger.debug("Scheduled update again");
+                        // logger.debug("Authenticated?");
+                        // logger.debug("Scheduled update again");
                         run();
                     } else {
-                        logger.debug("Not reachable set connection lost.");
+                        // logger.debug("Not reachable set connection lost.");
                         if (lastBridgeConnectionState) {
                             lastBridgeConnectionState = false;
                             onConnectionLost(bridge);
@@ -145,7 +147,7 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
                 } catch (Exception e) {
                     if (bridge != null) {
                         if (lastBridgeConnectionState) {
-                            logger.debug("Connection to Hue Bridge {} lost.", bridge.getIPAddress());
+                            // logger.debug("Connection to Hue Bridge {} lost.", bridge.getIPAddress());
                             lastBridgeConnectionState = false;
                             onConnectionLost(bridge);
                         }
@@ -183,14 +185,14 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
 
     @Override
     public void initialize() {
-        logger.debug("Initializing VoismartSwitch handler.");
+        // logger.debug("Initializing VoismartSwitch handler.");
         super.initialize();
 
         Configuration config = getThing().getConfiguration();
 
         try {
             if (bridge == null) {
-                logger.debug("Configuration {}", config.values());
+                // logger.debug("Configuration {}", config.values());
                 bridge = new VoismartSwitchBridge(InetAddress.getByName((String) config.get(HOST)),
                         (String) config.get(USER_NAME), (String) config.get(USER_PASSWORD));
             }
@@ -202,7 +204,7 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
 
     @Override
     public void dispose() {
-        logger.debug("Handler disposed.");
+        // logger.debug("Handler disposed.");
         if (pollingJob != null && !pollingJob.isCancelled()) {
             pollingJob.cancel(true);
             pollingJob = null;
@@ -222,11 +224,18 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
         // not needed
     }
 
-    public void updatePortState(FullPort port, OnOffType stateUpdate) {
-
+    public void updatePortState(final FullPort port, final OnOffType stateUpdate) {
         if (bridge != null) {
             try {
-                bridge.setPortPOEState(port, stateUpdate);
+                Runnable doAction = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        bridge.setPortPOEState(port, stateUpdate);
+                    }
+                };
+
+                scheduler.execute(doAction);
             } /*
                * catch (DeviceOffException e) { //updatePortState(port,
                * LightStateConverter.toColorLightState(OnOffType.ON));
@@ -244,27 +253,27 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
     /**
      * This method is called whenever the connection to the given
      * {@link HueBridge} is lost.
-     * 
+     *
      * @param bridge
      *            the hue bridge the connection is lost to
      */
     public void onConnectionLost(VoismartSwitchBridge bridge) {
-        logger.debug("Bridge connection lost. Updating thing status to OFFLINE.");
+        // logger.debug("Bridge connection lost. Updating thing status to OFFLINE.");
         updateStatus(ThingStatus.OFFLINE);
     }
 
     /**
      * This method is called whenever the connection to the given
      * {@link HueBridge} is resumed.
-     * 
+     *
      * @param bridge
      *            the hue bridge the connection is resumed to
      */
     public void onConnectionResumed(VoismartSwitchBridge bridge) {
-        logger.debug("Bridge connection resumed. Updating thing status to ONLINE.");
+        // logger.debug("Bridge connection resumed. Updating thing status to ONLINE.");
         updateStatus(ThingStatus.ONLINE);
         // now also re-initialize all port handlers
-        logger.debug("Re-initialize all port handlers");
+        // logger.debug("Re-initialize all port handlers");
         for (Thing thing : ((Bridge) getThing()).getThings()) {
             ThingHandler handler = thing.getHandler();
             if (handler != null) {
@@ -282,13 +291,13 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
      *            the hue bridge the connection is not authorized
      */
     public void onNotAuthenticated(VoismartSwitchBridge bridge) {
-        logger.debug("onNoAutheticatted...try login again");
+        // logger.debug("onNoAutheticatted...try login again");
         String userName = (String) getConfig().get(USER_NAME);
         String userPassword = (String) getConfig().get(USER_PASSWORD);
         if (userName != null && userPassword != null) {
             try {
                 bridge.login(userName, userPassword);
-                logger.debug("login done");
+                // logger.debug("login done");
             } catch (Exception e) {
                 logger.info("Voismart bridge {} is not authenticated - please press the pairing button on the bridge.",
                         getConfig().get(HOST));
@@ -304,7 +313,7 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
     }
 
     public boolean registerPortStatusListener(PortStatusListener portStatusListener) {
-        logger.debug("Register port status listener");
+        // logger.debug("Register port status listener");
         if (portStatusListener == null) {
             throw new NullPointerException("It's not allowed to pass a null PortStatusListener.");
         }
@@ -320,7 +329,7 @@ public class VoismartSwitchBridgeHandler extends BaseThingHandler {
     }
 
     public boolean unregisterPortStatusListener(PortStatusListener portStatusListener) {
-        logger.debug("Unregist port status listener");
+        // logger.debug("Unregist port status listener");
         boolean result = portStatusListeners.remove(portStatusListener);
         if (result) {
             onUpdate();

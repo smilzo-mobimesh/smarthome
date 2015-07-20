@@ -57,8 +57,16 @@ public class AveaBadgeHandler extends BaseThingHandler {
         try {
             Configuration config = getThing().getConfiguration();
             myIp = InetAddress.getByName((String) config.get(HOST));
-            // Mi registro
-            WEB08SServlet.addReader(myIp, this);
+
+            Runnable reset = new Runnable() {
+                @Override
+                public void run() {
+                    resetBadgeState();
+                    registerBadge();
+                }
+            };
+
+            scheduler.schedule(reset, 5, TimeUnit.SECONDS);
         } catch (UnknownHostException e) {
         }
     }
@@ -130,14 +138,23 @@ public class AveaBadgeHandler extends BaseThingHandler {
                         msg.setBeep(AveaWebMsg.BEEP.LONG);
                     }
 
-                    logger.debug("resetting state");
-                    updateState(new ChannelUID(getThing().getUID(), BADGE_ID), new DecimalType(0));
+                    resetBadgeState();
                     logger.debug("End processing message");
                 }
                 break;
         }
 
         return msg;
+    }
+
+    private void registerBadge() {
+        // Mi registro
+        WEB08SServlet.addReader(myIp, this);
+    }
+
+    private void resetBadgeState() {
+        logger.debug("resetting state");
+        updateState(new ChannelUID(getThing().getUID(), BADGE_ID), new DecimalType(0));
     }
 
     private void startCheckHeartbeat() {

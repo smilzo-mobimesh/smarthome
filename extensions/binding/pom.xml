@@ -27,6 +27,8 @@
     <module>org.eclipse.smarthome.binding.mattuino.test</module>
     <module>org.eclipse.smarthome.binding.aveabadge</module>
     <module>org.eclipse.smarthome.binding.aveabadge.test</module>
+    <module>org.eclipse.smarthome.binding.person</module>
+    <module>org.eclipse.smarthome.binding.person.test</module>
   </modules>
 
   <build>

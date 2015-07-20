@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="person"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <!-- Sample Thing Type -->
+    <thing-type id="person">
+        <label>Person Binding Thing</label>
+        <description>Sample thing for Person Binding</description>
+
+        <channels>
+            <channel id="activity" typeId="activityType"/>
+            <channel id="badge-id" typeId="badgeCode"/>
+        </channels>
+        
+        <config-description>
+            <parameter name="personal-badge-id" type="integer">
+                <context>Number</context>
+                <label>Badge ID</label>
+                <description>Person badge ID</description>
+            </parameter>
+            <parameter name="activity" type="text">
+                <context>String</context>
+                <label>Activity</label>
+                <description>Activity</description>
+                <default>IDLE</default>
+            </parameter>
+        </config-description>        
+    </thing-type>
+
+    <!-- Sample Channel Type -->
+    <channel-type id="badgeCode">
+        <item-type>Number</item-type>
+        <label>Badge Code</label>
+        <description>Code read.</description>
+        <state pattern="%d"></state>
+    </channel-type>
+    <channel-type id="activityType">
+        <item-type>String</item-type>
+        <label>User activity</label>
+        <description>User activity</description>
+        <state pattern="%s"></state>
+    </channel-type>
+    
+
+</thing:thing-descriptions>

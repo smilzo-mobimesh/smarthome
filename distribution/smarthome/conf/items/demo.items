@@ -14,11 +14,11 @@ Number LosAngeles_Temperature      "LosAngeles Temperature [%.1f °C]" <temperat
 Number Milan_Temperature      "Milan Temperature [%.1f °C]" <temperature> (Weather_Chart) { channel="yahooweather:weather:milan:temperature" }
 
 
-Switch SmilzoDemoPhoneWithRule               "[%s]" <switch>
-Switch SmilzoDemoPhone      "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:18:state" }
-Switch SmilzoDemo1       "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:1:state" }
+// Switch SmilzoDemoPhoneWithRule               "[%s]" <switch>
+// Switch SmilzoDemoPhone      "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:18:state" }
+// Switch SmilzoDemo1       "[POE is: %s]" <switch> { channel="voismartswitch:voismartswitchport:demo:1:state" }
 
 Switch Porta               "[Door is: %s]" { channel="mattuino:door:front:state" }
-Number Badge                "[Badge ID: %l]" { channel="aveabadge:WEB08S:front:badge-id" }
+Number Badge                "[Badge ID: %f]" { channel="aveabadge:WEB08S:front:badge-id" }
 
-
+Switch Mario_Phone      "[POE is: %s]" <switch> (gMario_Devices) { channel="voismartswitch:voismartswitchport:demo:18:state" }

@@ -13,15 +13,14 @@ sitemap demo label="Demo Sitemap" {
         Text item=LosAngeles_Temperature
         Text item=Milan_Temperature
 	}
-	Frame label="VoismartSwitch" {
-        Switch item=SmilzoDemoPhone label="Demo Phone" icon="switch"
-        Switch item=SmilzoDemo1 label="Presence" icon="switch"
-    }
-
     Frame label="Door" {
-        Switch item=Porta label="PortaDavanti" icon="switch"
+        Text item=Porta label="PortaDavanti" icon="switch"
     }
-    Frame label="Rules" {
-        Switch item=SmilzoDemoPhoneWithRule label="Demo Phone with Rule" icon="switch"
+	Frame label="VoismartSwitch" {
+        Switch item=Mario_Phone label="Demo Phone" icon="switch"
+    }
+    Frame label="People" {
+        Group item=gRaffo icon="present"
+        Group item=gMario icon="present"
     }
 }

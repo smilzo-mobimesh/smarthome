@@ -1,0 +1,5 @@
+// User Mario
+Group gMario (gUsers, gCottolengo)
+Group gMario_Devices (gMario)
+Number Mario_Badge "Badge ID [%f]" (gBadges, gMario) { channel="person:person:mario:badge-id" }
+String Mario_Activity "STATUS [%s]" (gActivities, gMario) { channel="person:person:mario:activity" }

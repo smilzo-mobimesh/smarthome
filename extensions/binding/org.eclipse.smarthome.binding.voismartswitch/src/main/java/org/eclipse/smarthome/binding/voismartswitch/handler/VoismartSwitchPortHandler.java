@@ -76,7 +76,7 @@ public class VoismartSwitchPortHandler extends BaseThingHandler implements PortS
     private FullPort getPort() {
         VoismartSwitchBridgeHandler bridgeHandler = getVoismartSwitchBridgeHandler();
         if (bridgeHandler != null) {
-            logger.debug("Get port id {} and search on bridge {}", portId, bridgeHandler.getPortById(portId));
+            // logger.debug("Get port id {} and search on bridge {}", portId, bridgeHandler.getPortById(portId));
             return bridgeHandler.getPortById(portId);
         }
         return null;
@@ -116,7 +116,7 @@ public class VoismartSwitchPortHandler extends BaseThingHandler implements PortS
     }
 
     private synchronized VoismartSwitchBridgeHandler getVoismartSwitchBridgeHandler() {
-        logger.debug("Get bridge called");
+        // logger.debug("Get bridge called");
         if (this.bridgeHandler == null) {
             Bridge bridge = getBridge();
             if (bridge == null) {

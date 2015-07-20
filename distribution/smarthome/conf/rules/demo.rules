@@ -7,6 +7,7 @@
 //  DemoString.postUpdate("Hello SmartHome!")
 //  DemoDateTime.postUpdate(new DateTimeType())
 //end
+
 //rule "Test"
 //when
 //  Item SmilzoDemoPhoneWithRule received command
@@ -14,12 +15,10 @@
 //  sendCommand(SmilzoDemoPhone, SmilzoDemoPhoneWithRule.state.toString)
 //end
 
-rule "OpenDoor"
-when
-  Item Badge changed
-then
-    if Badge.state > 0 {
-        sendCommand(Badge, Badge.state.toString)
-        sendCommand(Porta, ON)
-    }
-end
+// rule "OpenDoor"
+// when
+//  Item Badge changed from 0
+//then
+//    sendCommand(Badge, Badge.state.toString)
+//    sendCommand(Porta, ON)
+//end

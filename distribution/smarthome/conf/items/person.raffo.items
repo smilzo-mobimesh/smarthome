@@ -1,0 +1,5 @@
+// User Raffo
+Group gRaffo (gUsers, gCottolengo)
+Group gRaffo_Devices (gRaffo)
+Number Raffo_Badge "Badge ID [%f]" (gBadges, gRaffo) { channel="person:person:raffo:badge-id" }
+String Raffo_Activity "STATUS [%s]" (gActivities, gRaffo) { channel="person:person:raffo:activity" }

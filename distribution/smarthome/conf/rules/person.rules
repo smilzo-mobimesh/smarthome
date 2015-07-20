@@ -1,0 +1,48 @@
+rule "OPENDOOR_RULE"
+when
+    Item Badge changed
+then
+    logInfo("gBadges", gBadges.toString())
+    gBadges?.members.forEach(p| logInfo("OPENDOOR_RULE", p.groupNames.toString))
+    var ArryList<?> check = gBadges?.members.filter(p | p.state == Badge.state )
+    check.forEach [ ck | logInfo("OPENDOOR_RULE", ck.toString) ]
+    if ( check.size() >= 1 ) {
+        logInfo("OPENDOOR_RULE", "badge->" + check)
+        var ArrayList<gUsers> allowed = check.filter(c| 
+                        logInfo("OPENDOOR_RULE", c.name)
+                        var splittedUsername = c.name.toString.split('_')
+                        logInfo("OPENDOOR_RULE", splittedUsername)
+                        var user = gUsers?.members.filter(u| u.name == "g" + splittedUsername.get(0).trim )
+                        logInfo("OPENDOOR_RULE", user.get(0).groupNames.toString)
+                        return user.get(0).groupNames.contains("gCottolengo")
+                        )
+        
+        if ( allowed.size() >= 1) {
+            // Aggiorno lo stato della persona
+            var splittedUsername = check.get(0).name.toString.split('_')
+            logInfo("OPENDOOR_RULE", "User " + splittedUsername.get(0).trim)
+            var activity = gActivities?.members.filter(p| p.name == (splittedUsername.get(0).trim + "_Activity"))
+            logInfo("OPENDOOR_RULE", "Activity " + activity.toString())
+            if (activity.size() == 1) {
+                logInfo("OPENDOOR_RULE", "check status " + activity.get(0))
+                if ( activity.get(0).state.equals("IDLE") ) {
+                    logInfo("OPENDOOR_RULE", "Set at work")
+                    postUpdate( activity.get(0), "ATWORK")
+                }
+                else 
+                {
+                    logInfo("OPENDOOR_RULE", "Set idle")
+                    postUpdate( activity.get(0), "IDLE")
+                }
+            }
+            logInfo("OPENDOOR_RULE", "Badge response " + Badge.state)
+            sendCommand(Badge, Badge.state.toString)
+            logInfo("OPENDOOR_RULE", "Open door")
+            sendCommand(Porta, ON)
+        }
+    } else {
+        // Non abilitato
+        sendCommand(Badge, 0)
+    }
+    logInfo("OPENDOOR_RULE", "End door rule")
+end

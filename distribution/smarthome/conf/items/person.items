@@ -1,0 +1,7 @@
+// System groups
+Group gUsers
+Group gBadges
+Group gActivities
+
+// User logical groups
+Group gCottolengo

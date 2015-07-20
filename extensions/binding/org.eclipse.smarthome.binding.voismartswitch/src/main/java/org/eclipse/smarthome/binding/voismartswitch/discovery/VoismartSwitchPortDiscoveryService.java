@@ -116,18 +116,18 @@ public class VoismartSwitchPortDiscoveryService extends AbstractDiscoveryService
         // nothing to do
         // Thing port = voismartSwitchBridgeHandler.updatePortState(fullPort, fullPort.getPOEStatus());
 
-        logger.debug("Port Handler onPortStateChanged {} with {}", fullPort.getId(), fullPort.getPOEStatus());
+        // logger.debug("Port Handler onPortStateChanged {} with {}", fullPort.getId(), fullPort.getPOEStatus());
         // updateState(new ChannelUID(getThing().getUID(), STATE), fullPort.getPOEStatus());
 
     }
 
     private ThingUID getThingUID(FullPort port) {
-        logger.debug("Try to find thing UID");
+        // logger.debug("Try to find thing UID");
         ThingUID bridgeUID = voismartSwitchBridgeHandler.getThing().getUID();
-        logger.debug("Bridge UID {}", bridgeUID);
+        // logger.debug("Bridge UID {}", bridgeUID);
         ThingTypeUID thingTypeUID = new ThingTypeUID(BINDING_ID, FullPort.uid);
-        logger.debug("Thing UID {}", thingTypeUID);
-        logger.debug("Supported thing UIDs {}", getSupportedThingTypes());
+        // logger.debug("Thing UID {}", thingTypeUID);
+        // logger.debug("Supported thing UIDs {}", getSupportedThingTypes());
 
         if (getSupportedThingTypes().contains(thingTypeUID)) {
             String thingPortId = port.getId();

@@ -1,0 +1,17 @@
+// Regola per i dispositivi utente
+rule "MARIODEVICES_RULE"
+when
+    Item Mario_Activity changed
+then
+    logInfo("MARIODEVICES_RULE", Mario_Activity.state.toString)
+    if ( Mario_Activity.state == "ATWORK" ) {
+        logInfo("MARIODEVICES_RULE", "Accendo")
+        gMario_Devices?.members.forEach(p| sendCommand(p, ON))
+    }
+    else
+    {
+        logInfo("MARIODEVICES_RULE", "Spengo")
+        gMario_Devices?.members.forEach(p| sendCommand(p, OFF))
+    }
+    logInfo("MARIODEVICES_RULE", "End mario devices rule")
+end
